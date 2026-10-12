@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "./components.css";
+
+/* ------------------------------------------------------------------
+   TradeSphere design tokens (Tailwind v4 reads these from @theme)
+------------------------------------------------------------------- */
+@theme {
+  /* Typography: Manrope for headings, Inter for text, DM Serif Display for rare editorial accents */
+  --font-display: "Manrope", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+
+  /* Midnight navy (900 = #101827) and charcoal */
+  --color-navy-950: #0a0f1a;
+  --color-navy-900: #101827;
+  --color-navy-800: #1b2436;
+  --color-navy-700: #2b3650;
+  --color-navy-600: #46526d;
+  --color-navy-200: #cdd2dc;
+  --color-navy-100: #e5e7ed;
+  --color-navy-50: #f2f3f6;
+  --color-charcoal: #171a21;
+
+  /* Champagne gold (500 = #C9A66B). Use 600/700 for gold text on light backgrounds. */
+  --color-brand-700: #6f5430;
+  --color-brand-600: #8c6b3b;
+  --color-brand-500: #c9a66b;
+  --color-brand-400: #d8bd8c;
+  --color-brand-100: #f1e6d2;
+  --color-brand-50: #faf5ec;
+
+  /* Warm ivory canvas, ink and muted slate */
+  --color-surface: #f8f6f1;
+  --color-ivory: #f8f6f1;
+  --color-ink: #171a21;
+  --color-muted: #5f6b7a;
+  --color-line: #e7e3da;
+
+  /* Restrained emerald for reviewed suppliers and success */
+  --color-success: #0f7b5f;
+  --color-success-50: #e9f5f0;
+  --color-danger: #c2362b;
+  --color-danger-50: #fcefed;
+  --color-warning: #94620f;
+  --color-warning-50: #fbf4e6;
+
+  --shadow-card: 0 1px 2px rgb(16 24 39 / 0.04), 0 8px 24px -12px rgb(16 24 39 / 0.10);
+  --shadow-lift: 0 2px 6px rgb(16 24 39 / 0.05), 0 24px 48px -20px rgb(16 24 39 / 0.28);
+  --shadow-pop: 0 30px 70px -24px rgb(10 15 26 / 0.45);
+  --shadow-gold: 0 10px 30px -12px rgb(201 166 107 / 0.55);
+
+  --breakpoint-xs: 26rem;
+
+  --animate-reveal: ts-reveal 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-navy-900);
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-brand-500);
+    color: var(--color-navy-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  button,
+  [role="button"],
+  select,
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
