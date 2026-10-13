@@ -1,32 +1,92 @@
-import { Link } from 'react-router-dom';
-import { FileText, PackageCheck, Scale, Search } from 'lucide-react';
-import Section from './Section';
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
+import Section from "./Section";
+import Image from "../common/Image";
+import useProducts from "../../hooks/useProducts";
 
-const STEPS = [
-  { icon: Search, title: 'Discover', text: 'Search products and suppliers, filter by MOQ, price, country and business type.', to: '/products', cta: 'Explore products' },
-  { icon: Scale, title: 'Compare', text: 'Review company profiles, verification status, lead times and tiered prices side by side.', to: '/suppliers', cta: 'Find suppliers' },
-  { icon: FileText, title: 'Request quotes', text: 'Send one detailed buying request with quantity, specification and target price.', to: '/rfq', cta: 'Post a request' },
-  { icon: PackageCheck, title: 'Order in bulk', text: 'Buy Now or check out a multi-supplier cart with shipping and payment options.', to: '/cart', cta: 'View cart' },
+// Industries highlighted on the homepage, mapped to existing catalogue categories.
+const INDUSTRIES = [
+  { name: "Textiles & Apparel", category: "fashion-apparel" },
+  { name: "Electronics", category: "electronics" },
+  { name: "Industrial Machinery", category: "machinery" },
+  { name: "Packaging", category: "packaging" },
+  { name: "Home Goods", category: "home-kitchen" },
+  { name: "Beauty Products", category: "beauty-personal-care" },
 ];
 
-/** The international sourcing process in four visual steps. */
-export default function HowItWorks() {
+/** Image-led industry cards linking to the matching catalogue categories. */
+export default function IndustrySection() {
+  const { categories, products, loading } = useProducts();
+  const industries = useMemo(
+    () =>
+      INDUSTRIES.map((industry) => {
+        const category = categories.find(
+          (item) => item.slug === industry.category,
+        );
+        return category
+          ? {
+              ...industry,
+              category,
+              count: products.filter(
+                (product) =>
+                  product.category === category.slug &&
+                  product.status === "Active",
+              ).length,
+            }
+          : null;
+      }).filter(Boolean),
+    [categories, products],
+  );
+
+  if (loading || !industries.length) return null;
   return (
-    <Section id="home-how" tone="plain" eyebrow="How sourcing works" title="From first search to" accent="bulk order." align="center">
-      <ol className="relative grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <span className="absolute left-[12%] right-[12%] top-12 hidden h-px bg-gradient-to-r from-transparent via-brand-500/60 to-transparent lg:block" aria-hidden="true" />
-        {STEPS.map((step, index) => (
-          <li key={step.title} className="relative flex flex-col items-center rounded-[1.5rem] bg-white px-6 pb-7 pt-8 text-center shadow-card ring-1 ring-navy-900/[0.05]">
-            <span className="relative inline-flex size-16 items-center justify-center rounded-full bg-navy-900 text-brand-400 ring-8 ring-ivory">
-              <step.icon className="size-6" aria-hidden="true" />
-              <span className="absolute -right-1 -top-1 inline-flex size-6 items-center justify-center rounded-full bg-brand-500 font-display text-xs font-extrabold text-navy-900">{index + 1}</span>
-            </span>
-            <h3 className="mt-5 font-display text-xl font-bold"><span className="sr-only">Step {index + 1}: </span>{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">{step.text}</p>
-            <Link to={step.to} className="mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700">{step.cta} →</Link>
+    <Section
+      id="home-industries"
+      tone="white"
+      eyebrow="Industries"
+      title="Built for every"
+      accent="supply chain."
+      description="Jump straight into the industries international buyers source from most."
+    >
+      <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {industries.map((industry) => (
+          <li key={industry.name}>
+            <Link
+              to={`/categories/${industry.category.slug}`}
+              className="group block overflow-hidden rounded-[1.75rem] bg-[#f1f5ee] ring-1 ring-navy-900/[0.06] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lift"
+            >
+              <span className="block overflow-hidden bg-[#e7efe0]">
+                <Image
+                  photo={industry.category.photo}
+                  illustration={industry.category.illustration}
+                  width={640}
+                  height={400}
+                  alt={`${industry.name} products`}
+                  className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </span>
+              <span className="flex items-center gap-4 p-5">
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-lg font-bold text-navy-900">
+                    {industry.name}
+                  </span>
+                  <span className="text-sm text-muted">
+                    {industry.count} wholesale{" "}
+                    {industry.count === 1 ? "listing" : "listings"}
+                  </span>
+                </span>
+                <span
+                  className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-navy-900 text-white transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                >
+                  <ArrowUpRight className="size-4" />
+                </span>
+              </span>
+            </Link>
           </li>
         ))}
-      </ol>
+      </ul>
     </Section>
   );
 }

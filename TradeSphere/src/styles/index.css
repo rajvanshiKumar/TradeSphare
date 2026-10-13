@@ -131,3 +131,78 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Homepage "Sage" theme
+   The homepage is wrapped in .ts-home. Re-pointing the design tokens here
+   recolours every component on the homepage (buttons, cards, badges)
+   without touching shared components, and leaves the rest of the site as is.
+------------------------------------------------------------------- */
+.ts-home {
+  /* Forest greens replace the navy scale on the homepage */
+  --color-navy-950: #0b2716;
+  --color-navy-900: #123f25;
+  --color-navy-800: #1a5133;
+  --color-navy-700: #2b6644;
+  --color-navy-600: #4a7a5c;
+  --color-navy-200: #c9d9c0;
+  --color-navy-100: #e3ecdd;
+  --color-navy-50: #f1f5ee;
+
+  /* Sage accents replace champagne gold. 600/700 stay dark enough for text on light surfaces. */
+  --color-brand-700: #1f4d2e;
+  --color-brand-600: #2f6b3f;
+  --color-brand-500: #a8c494;
+  --color-brand-400: #bcd3ab;
+  --color-brand-100: #dfead5;
+  --color-brand-50: #eef4e8;
+
+  --color-surface: #f6f4ee;
+  --color-ivory: #f6f4ee;
+  --color-line: #dfe4d6;
+  --color-muted: #5a6a5e;
+
+  --color-sage: #a8c494;
+  --color-sage-soft: #e7efe0;
+  --color-forest: #123f25;
+
+  --shadow-card: 0 1px 2px rgb(18 63 37 / 0.05), 0 10px 28px -14px rgb(18 63 37 / 0.18);
+  --shadow-lift: 0 2px 6px rgb(18 63 37 / 0.06), 0 26px 50px -22px rgb(18 63 37 / 0.32);
+  --shadow-pop: 0 30px 70px -26px rgb(11 39 22 / 0.4);
+  --shadow-gold: 0 10px 28px -14px rgb(18 63 37 / 0.45);
+
+  background-color: var(--color-ivory);
+}
+
+/* Accent words stay in the clean sans-serif on the homepage, lighter rather than italic. */
+.ts-home .ts-serif {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+/* Forest panels with a soft sage glow instead of gold */
+.ts-home .ts-navy-texture {
+  background-color: var(--color-forest);
+  background-image:
+    radial-gradient(ellipse 60% 55% at 90% 0%, rgb(168 196 148 / 0.28), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 0% 100%, rgb(168 196 148 / 0.14), transparent 70%);
+  background-size: auto;
+}
+
+/* Section backgrounds used by the homepage */
+.ts-sage {
+  background-color: #a8c494;
+  background-image: linear-gradient(180deg, #b3cca1 0%, #a8c494 55%, #9dbb88 100%);
+}
+.ts-sage-soft {
+  background-color: #e7efe0;
+}
+
+/* Decorative leaves sit behind content and never catch the pointer */
+.ts-botanical {
+  pointer-events: none;
+  position: absolute;
+  color: var(--color-forest);
+}
